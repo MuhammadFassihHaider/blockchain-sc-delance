@@ -32,6 +32,13 @@ contract Delance {
         price = msg.value;
     }
 
+    // getter functions generated automatically for arrays
+    // only allows us to get values from array by index.
+    // this is to get the complete array back
+    function getRequests() public view returns (Request[] memory) {
+        return requests;
+    }
+
     function setAddress(address _freelancer) public {
         freelancer = _freelancer;
     }
