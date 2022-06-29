@@ -15,6 +15,8 @@ contract Delance {
         bool paid;
     }
 
+    event RequestUnlocked(bool locked);
+
     modifier onlyFreelancer(uint256 _amount) {
         // keep error messages small
         require(msg.sender == freelancer, "Only freelancer!");
@@ -68,6 +70,8 @@ contract Delance {
 
         require(request.locked == true, "Already locked!");
         request.locked = false;
+
+        emit RequestUnlocked(request.locked);
     }
 
     // called when any ethers are sent to contract
