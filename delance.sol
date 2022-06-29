@@ -2,8 +2,9 @@
 pragma solidity 0.8.15;
 
 contract Delance {
-    address public freelancer;
-    address public employer;
+    bool payRequestLocked = false;
+    address payable public freelancer;
+    address payable public employer;
     uint256 public deadline;
     uint256 public price;
     Request[] public requests;
@@ -19,10 +20,11 @@ contract Delance {
 
     event RequestCreated(uint256 amount, string title, bool locked, bool paid);
 
-    modifier onlyFreelancer(uint256 _amount) {
+    event RequestPaid(address receiver, uint256 amount);
+
+    modifier onlyFreelancer() {
         // keep error messages small
         require(msg.sender == freelancer, "Only freelancer!");
-        require(_amount > 0, "Should be greater than 0!");
         _;
     }
 
@@ -31,12 +33,12 @@ contract Delance {
         _;
     }
 
-    constructor(address _freelancer, uint256 _deadline) payable {
+    constructor(address payable _freelancer, uint256 _deadline) payable {
         freelancer = _freelancer;
         // global variable property: has the address of
         // sender who called constructor
         deadline = _deadline;
-        employer = msg.sender;
+        employer = payable(msg.sender);
         // global variable property: contains eth sent to contract
         price = msg.value;
     }
@@ -45,7 +47,7 @@ contract Delance {
         return requests;
     }
 
-    function setAddress(address _freelancer) public {
+    function setAddress(address payable _freelancer) public {
         freelancer = _freelancer;
     }
 
@@ -55,8 +57,10 @@ contract Delance {
 
     function createRequest(uint256 _amount, string memory _title)
         public
-        onlyFreelancer(_amount)
+        onlyFreelancer
     {
+        require(_amount > 0, "Should be greater than 0!");
+
         Request memory request = Request({
             amount: _amount,
             title: _title,
@@ -67,6 +71,30 @@ contract Delance {
         requests.push(request);
 
         emit RequestCreated(_amount, _title, request.locked, request.paid);
+    }
+
+    function payRequest(uint256 indexOfRequestToPay) public onlyFreelancer {
+        require(!payRequestLocked, "Reentrant detected!");
+
+        Request storage request = requests[indexOfRequestToPay];
+
+        require(!request.locked, "Request locked!");
+        require(!request.paid, "Request paid!");
+
+        // lock from here - transfer start
+        payRequestLocked = true;
+
+        // second return value: bytes memory transactionBytes
+        (bool success, ) = freelancer.call{value: request.amount}("");
+
+        require(success, "Transfer failed!");
+
+        request.paid = true;
+
+        // unlock here - transfer end
+        payRequestLocked = false;
+
+        emit RequestPaid(msg.sender, request.amount);
     }
 
     function unlockRequest(uint256 _indexOfRequest) public onlyEmployer {
