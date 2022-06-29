@@ -17,6 +17,8 @@ contract Delance {
 
     event RequestUnlocked(bool locked);
 
+    event RequestCreated(uint256 amount, string title, bool locked, bool paid);
+
     modifier onlyFreelancer(uint256 _amount) {
         // keep error messages small
         require(msg.sender == freelancer, "Only freelancer!");
@@ -63,6 +65,8 @@ contract Delance {
         });
 
         requests.push(request);
+
+        emit RequestCreated(_amount, _title, request.locked, request.paid);
     }
 
     function unlockRequest(uint256 _indexOfRequest) public onlyEmployer {
