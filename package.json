@@ -13,7 +13,8 @@
         "hardhat": "^2.9.9"
     },
     "scripts": {
-        "test": "mocha"
+        "test": "mocha",
+        "deploy": "npx hardhat run scripts/sample-script.js"
     },
     "author": "",
     "license": "ISC"
