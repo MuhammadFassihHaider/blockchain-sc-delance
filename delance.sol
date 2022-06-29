@@ -22,6 +22,11 @@ contract Delance {
         _;
     }
 
+    modifier onlyEmployer() {
+        require(msg.sender == employer, "Only Employer");
+        _;
+    }
+
     constructor(address _freelancer, uint256 _deadline) payable {
         freelancer = _freelancer;
         // global variable property: has the address of
@@ -32,9 +37,6 @@ contract Delance {
         price = msg.value;
     }
 
-    // getter functions generated automatically for arrays
-    // only allows us to get values from array by index.
-    // this is to get the complete array back
     function getRequests() public view returns (Request[] memory) {
         return requests;
     }
@@ -59,6 +61,13 @@ contract Delance {
         });
 
         requests.push(request);
+    }
+
+    function unlockRequest(uint256 _indexOfRequest) public onlyEmployer {
+        Request storage request = requests[_indexOfRequest];
+
+        require(request.locked == true, "Already locked!");
+        request.locked = false;
     }
 
     // called when any ethers are sent to contract
