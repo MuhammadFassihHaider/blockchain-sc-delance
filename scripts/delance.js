@@ -15,11 +15,14 @@ async function main() {
 
     // We get the contract to deploy
     const Delance = await hre.ethers.getContractFactory("Delance");
-    const delance = await Delance.deploy("0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2", 1664433591);
+    const delance = await Delance.deploy(
+        "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
+        1664433591
+    );
 
     await delance.deployed();
 
-    // console.log("Greeter deployed to:", delance.address);
+    console.log("Delance deployed to:", delance.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

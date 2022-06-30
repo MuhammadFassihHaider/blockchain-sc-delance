@@ -3,7 +3,7 @@ pragma solidity 0.8.15;
 import "hardhat/console.sol";
 
 contract Delance {
-    bool payRequestLocked = false;
+    bool public payRequestLocked = false;
     address payable public freelancer;
     address payable public employer;
     uint256 public deadline;
@@ -30,7 +30,7 @@ contract Delance {
     }
 
     modifier onlyEmployer() {
-        require(msg.sender == employer, "Only Employer");
+        require(msg.sender == employer, "Only employer!");
         _;
     }
 
@@ -76,6 +76,13 @@ contract Delance {
 
     function payRequest(uint256 indexOfRequestToPay) public onlyFreelancer {
         require(!payRequestLocked, "Reentrant detected!");
+
+        uint256 lengthOfRequests = requests.length;
+
+        require(
+            indexOfRequestToPay < lengthOfRequests,
+            "Element does not exist in array!"
+        );
 
         Request storage request = requests[indexOfRequestToPay];
 
