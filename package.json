@@ -14,7 +14,8 @@
     },
     "scripts": {
         "test": "mocha",
-        "deploy": "npx hardhat run scripts/delance.js"
+        "deploy": "npx hardhat run scripts/delance.js",
+        "test-d": "npx hardhat run scripts/delance.js && mocha"
     },
     "author": "",
     "license": "ISC"
