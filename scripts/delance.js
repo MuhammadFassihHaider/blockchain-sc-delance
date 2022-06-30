@@ -19,7 +19,7 @@ async function main() {
 
     await delance.deployed();
 
-    console.log("Greeter deployed to:", delance.address);
+    // console.log("Greeter deployed to:", delance.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
