@@ -45,4 +45,20 @@ describe("Delance", function () {
         const [_, freelancer] = await ethers.getSigners()
         expect(delance.connect(freelancer).createRequest(0, "Some title")).to.be.revertedWith("Should be greater than 0!")
     })
+
+    it("Should create request with correct arguments", async () => {
+        const [_, freelancer] = await ethers.getSigners()
+        const createRequest = await delance
+            .connect(freelancer)
+            .createRequest(1, "Title");
+        await createRequest.wait();
+
+        const getRequests = await delance.getRequests();
+        const [amount, title, locked, paid] = getRequests[0]
+
+        expect(amount.eq(ethers.BigNumber.from(1)))
+        expect(title === "Title");
+        expect(locked === true)
+        expect(paid === false)
+    })
 });
