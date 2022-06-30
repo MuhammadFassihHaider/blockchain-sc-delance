@@ -1,40 +1,48 @@
-const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const chai = require("chai");
+const { solidity } = require("ethereum-waffle");
+chai.use(solidity);
+const { expect } = chai;
 
-const initializeContract = async () => {
-    const freelancerAddress = "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2";
-    const deadline = 1664433591;
-
-    const Delance = await ethers.getContractFactory("Delance");
-    const delance = await Delance.deploy(freelancerAddress, deadline);
-    await delance.deployed();
-    return { delance, freelancerAddress, deadline };
-}
+const DEADLINE = 1664433591;
 
 describe("Delance", function () {
-    it("Should initialize values in constructor", async () => {
-        const { delance, deadline, freelancerAddress } = await initializeContract();
+    let delance;
 
-        expect(await delance.freelancer()).to.equal(freelancerAddress);
-        expect(await delance.deadline()).to.equal(deadline);
+    beforeEach(async () => {
+        const [_, freelancer] = await ethers.getSigners()
+
+        const Delance = await ethers.getContractFactory("Delance");
+
+        delance = await Delance.deploy(freelancer.address, DEADLINE);
+        await delance.deployed();
+    })
+
+    it("Should initialize values in constructor", async () => {
+        const [_, freelancer] = await ethers.getSigners()
+
+        expect(await delance.freelancer()).to.equal(freelancer.address);
+        expect(await delance.deadline()).to.equal(DEADLINE);
     });
 
-    it("Should correctly set deadline", async () => {
-        const { delance, deadline } = await initializeContract();
-
-        const setDeadline = await delance.setDeadline(deadline + 5)
+    it("Should correctly set project deadline", async () => {
+        const setDeadline = await delance.setDeadline(DEADLINE + 5)
         await setDeadline.wait()
 
-        expect(await delance.deadline()).to.equal(deadline + 5);
+        expect(await delance.deadline()).to.equal(DEADLINE + 5);
     });
 
     it("Should correctly set freelancerAddress", async () => {
-        const { delance, freelancerAddress } = await initializeContract();
-        const updatedFreelancerAddress = "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db";
-        const setFreelancer = await delance.setAddress(updatedFreelancerAddress)
+        const signers = await ethers.getSigners()
+
+        const setFreelancer = await delance.setAddress(signers[2].address)
         await setFreelancer.wait();
 
-        expect(await delance.freelancer()).to.equal(updatedFreelancerAddress)
+        expect(await delance.freelancer()).to.equal(signers[2].address)
+    });
 
+    it("Should not create request if amount is less than 1", async () => {
+        const [_, freelancer] = await ethers.getSigners()
+        expect(delance.connect(freelancer).createRequest(0, "Some title")).to.be.revertedWith("Should be greater than 0!")
     })
 });
