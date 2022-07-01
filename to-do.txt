@@ -1,7 +1,9 @@
-1.  complete contract
-2.  integrate with hardhat
-3.  add mocha tests
-4.  create FE and BE to add the concept of a middle person.
+1.  (done) complete contract 
+2.  (done) integrate with hardhat 
+3.  (done) add mocha tests 
+4.  (done) create FE  
+5.  (pending) create BE to add the concept of a middle person.
+    
     Suppose that we have a website like upwork and the 
     employer is not happy with the work that freelancer did.
     They want to reject the work but this rejection needs to be 
