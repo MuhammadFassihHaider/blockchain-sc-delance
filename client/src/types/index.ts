@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-export type TTab = "freelancer" | "employer";
+export type TTab = "Freelancer" | "Employer";
 
 export type TUserAddresses = {
     freelancer: string;

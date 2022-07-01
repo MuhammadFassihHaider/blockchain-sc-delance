@@ -17,7 +17,7 @@ const delanceContract: Delance = new web3.eth.Contract(
 ) as TODO;
 
 function App() {
-    const [tabSelected, setTabSelected] = useState<TTab>("freelancer");
+    const [tabSelected, setTabSelected] = useState<TTab>("Freelancer");
     const [createRequestValues, setCreateRequestValues] =
         useState<TCreateRequestValues>({
             requestAmount: 0,
@@ -39,6 +39,8 @@ function App() {
             employer,
         });
     };
+
+    console.log({ tabSelected });
 
     const getContractBalance = async () => {
         const _balance = await web3.eth.getBalance(contractAddress);
@@ -90,6 +92,10 @@ function App() {
                 )
                 .send({ from: userAddresses.freelancer });
             await getFreelancerRequests();
+            setCreateRequestValues({
+                requestAmount: 0,
+                requestTitle: "",
+            });
         } catch (error) {
             console.log({ error });
         }
@@ -130,24 +136,33 @@ function App() {
     }, [getFreelancerRequests]);
 
     return (
-        <div className="bg-red-200">
-            <Balance balance={balance} />
+        <div className="p-4 flex justify-center">
+            <div className="w-[530px]">
+                <Balance balance={balance} />
 
-            <Tabs setTabSelected={setTabSelected} />
+                <Tabs
+                    tabSelected={tabSelected}
+                    setTabSelected={setTabSelected}
+                />
 
-            <FreelancerRequestForm
-                createRequestValues={createRequestValues}
-                onChangeCreateRequestInputs={onChangeCreateRequestInputs}
-                onClickCreateRequest={onClickCreateRequest}
-                tabSelected={tabSelected}
-            />
+                <div className="absolute right-20 top-28">
+                    <FreelancerRequestForm
+                        createRequestValues={createRequestValues}
+                        onChangeCreateRequestInputs={
+                            onChangeCreateRequestInputs
+                        }
+                        onClickCreateRequest={onClickCreateRequest}
+                        tabSelected={tabSelected}
+                    />
+                </div>
 
-            <AllRequestTable
-                allFreelancerRequests={allFreelancerRequests}
-                onClickUnlockRequest={onClickUnlockRequest}
-                onClickWithdrawRequest={onClickWithdrawRequest}
-                tabSelected={tabSelected}
-            />
+                <AllRequestTable
+                    allFreelancerRequests={allFreelancerRequests}
+                    onClickUnlockRequest={onClickUnlockRequest}
+                    onClickWithdrawRequest={onClickWithdrawRequest}
+                    tabSelected={tabSelected}
+                />
+            </div>
         </div>
     );
 }
