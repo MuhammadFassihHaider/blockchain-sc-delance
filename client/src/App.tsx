@@ -40,8 +40,6 @@ function App() {
         });
     };
 
-    console.log({ tabSelected });
-
     const getContractBalance = async () => {
         const _balance = await web3.eth.getBalance(contractAddress);
         setBalance(_balance);
@@ -64,8 +62,6 @@ function App() {
             console.log({ error });
         }
     }, []);
-
-    console.log({ allFreelancerRequests: allFreelancerRequests });
 
     const onClickCreateRequest: React.MouseEventHandler<
         HTMLButtonElement
