@@ -17,7 +17,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "gen-contract-types": "npx typechain --target web3-v1 --out-dir src/generated-contract-types/contracts '../artifacts/contracts/Delance.sol/Delance.json'"
     },
     "eslintConfig": {
         "extends": [
@@ -38,12 +39,14 @@
         ]
     },
     "devDependencies": {
+        "@typechain/web3-v1": "^6.0.1",
         "@types/jest": "^27.5.2",
         "@types/node": "^16.11.42",
         "@types/react": "^18.0.14",
         "@types/react-dom": "^18.0.5",
-        "postcss": "^8.4.14",
         "autoprefixer": "^10.4.7",
-        "tailwindcss": "^3.1.4"
+        "postcss": "^8.4.14",
+        "tailwindcss": "^3.1.4",
+        "typechain": "^8.1.0"
     }
 }
