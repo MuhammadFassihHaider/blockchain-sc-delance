@@ -1,24 +1,11 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// When running the script with `npx hardhat run <script>` you'll find the Hardhat
-// Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
 
 async function main() {
-    // Hardhat always runs the compile task when running scripts with its command
-    // line interface.
-    //
-    // If this script is run directly using `node` you may want to call compile
-    // manually to make sure everything is compiled
-    // await hre.run('compile');
-
-    // We get the contract to deploy
+    const [employer] = await ethers.getSigners();
     const Delance = await hre.ethers.getContractFactory("Delance");
-    const delance = await Delance.deploy(
-        "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
-        1664433591
-    );
+    const delance = await Delance.deploy(employer.address, 1664433591, {
+        value: "3000000000000000000",
+    });
 
     await delance.deployed();
 
