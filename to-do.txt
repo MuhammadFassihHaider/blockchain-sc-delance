@@ -2,10 +2,8 @@
 2.  (done) integrate with hardhat 
 3.  (done) add mocha tests 
 4.  (done) create FE  
-5.  (pending) create BE to add the concept of a middle person.
+5.  (pending) create BE to add the concept of a middle person.   
     
     Suppose that we have a website like upwork and the 
     employer is not happy with the work that freelancer did.
-    They want to reject the work but this rejection needs to be 
-    signed by the website admin. Because we will be signing with
-    a secret key, we need a BE 
+    They want to reject the work but this rejection needs to be signed by the website admin. Because we will be signing with a secret key, we need a BE 
