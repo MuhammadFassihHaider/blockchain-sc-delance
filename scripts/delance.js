@@ -1,11 +1,17 @@
 const hre = require("hardhat");
 
 async function main() {
-    const [employer] = await ethers.getSigners();
+    const [employer, freelancer, admin] = await ethers.getSigners();
     const Delance = await hre.ethers.getContractFactory("Delance");
-    const delance = await Delance.deploy(employer.address, 1664433591, {
-        value: "3000000000000000000",
-    });
+    const delance = await Delance.deploy(
+        employer.address,
+        freelancer.address,
+        admin.address,
+        1664433591,
+        {
+            value: "3000000000000000000",
+        }
+    );
 
     await delance.deployed();
 
