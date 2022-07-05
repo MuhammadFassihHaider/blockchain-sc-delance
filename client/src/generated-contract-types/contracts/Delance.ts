@@ -50,6 +50,10 @@ export interface Delance extends BaseContract {
   ): Delance;
   clone(): Delance;
   methods: {
+    amountToPayToFreelancer(): NonPayableTransactionObject<string>;
+
+    approveEmployerRejectionByAdmin(): NonPayableTransactionObject<void>;
+
     createRequest(
       _amount: number | string | BN,
       _title: string
@@ -65,13 +69,15 @@ export interface Delance extends BaseContract {
       [string, string, boolean, boolean][]
     >;
 
+    isFreelancerWorkRejected(): NonPayableTransactionObject<boolean>;
+
     payRequest(
       indexOfRequestToPay: number | string | BN
     ): NonPayableTransactionObject<void>;
 
-    payRequestLocked(): NonPayableTransactionObject<boolean>;
-
     price(): NonPayableTransactionObject<string>;
+
+    reentrantPreventionFlag(): NonPayableTransactionObject<boolean>;
 
     requests(arg0: number | string | BN): NonPayableTransactionObject<{
       amount: string;
@@ -90,9 +96,15 @@ export interface Delance extends BaseContract {
       _deadline: number | string | BN
     ): NonPayableTransactionObject<void>;
 
+    setFreelancerWorkRejected(
+      _isFreelancerWorkRejected: boolean
+    ): NonPayableTransactionObject<void>;
+
     unlockRequest(
       _indexOfRequest: number | string | BN
     ): NonPayableTransactionObject<void>;
+
+    withdrawAmountByFreelancer(): NonPayableTransactionObject<void>;
   };
   events: {
     RequestCreated(cb?: Callback<RequestCreated>): EventEmitter;

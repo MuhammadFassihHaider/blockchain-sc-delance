@@ -19,7 +19,7 @@
     "scripts": {
         "test": "mocha",
         "deploy": "npx hardhat run scripts/delance.js",
-        "deploy-l": "npx hardhat run scripts/delance.js --network localhost",
+        "deploy-l": "npx hardhat run scripts/delance.js --network rinkeby",
         "test-d": "yarn deploy && mocha"
     },
     "author": "",
