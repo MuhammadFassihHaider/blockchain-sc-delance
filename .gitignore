@@ -4,3 +4,5 @@ artifacts
 cache
 typechain-types
 dist
+.env
+generated-contract-types
