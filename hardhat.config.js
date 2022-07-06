@@ -21,7 +21,7 @@ module.exports = {
     solidity: "0.8.15",
     networks: {
         rinkeby: {
-            url: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+            url: "https://rinkeby.infura.io/v3/d8f39fe2d7964cf6a13c02a4d4a22f50",
             accounts: [
                 process.env.PRIVATE_KEY ??
                     "36bff3e6b7b59c9e482692be6475bdefc546f0f8aab04a0a7daad052742ba36f",
