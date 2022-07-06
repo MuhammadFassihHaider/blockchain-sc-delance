@@ -15,3 +15,10 @@ export type TCreateRequestValues = {
 export type TSetState<T> = Dispatch<SetStateAction<T>>;
 
 export type TODO = any;
+
+export type TFreelancerRequest = {
+    amount: number;
+    title: string;
+    locked: boolean;
+    paid: boolean;
+};
