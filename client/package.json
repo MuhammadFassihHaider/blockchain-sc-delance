@@ -17,8 +17,7 @@
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
-        "eject": "react-scripts eject",
-        "gen-contract-types": "npx typechain --target web3-v1 --out-dir src/generated-contract-types/contracts '../artifacts/contracts/Delance.sol/Delance.json'"
+        "eject": "react-scripts eject"
     },
     "eslintConfig": {
         "extends": [
@@ -39,7 +38,6 @@
         ]
     },
     "devDependencies": {
-        "@typechain/web3-v1": "^6.0.1",
         "@types/jest": "^27.5.2",
         "@types/node": "^16.11.42",
         "@types/react": "^18.0.14",

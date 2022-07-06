@@ -667,6 +667,14 @@
     fs-extra "^9.1.0"
     lodash "^4.17.15"
 
+"@typechain/web3-v1@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@typechain/web3-v1/-/web3-v1-6.0.1.tgz#459d1d6901134310fbc1cf9cd263bf529d979572"
+  integrity sha512-w3xehVgsKV74fGBx1d6xuySWZJ/DbLaYWJDqaDy93qojOicDPESESfOL0XIWZfEmhxk+1JEDC9Roqb/eBmldaA==
+  dependencies:
+    lodash "^4.17.15"
+    ts-essentials "^7.0.1"
+
 "@types/abstract-leveldown@*":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@types/abstract-leveldown/-/abstract-leveldown-7.2.0.tgz#f055979a99f7654e84d6b8e6267419e9c4cfff87"

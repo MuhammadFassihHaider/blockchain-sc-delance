@@ -11,6 +11,7 @@
     "devDependencies": {
         "@nomiclabs/hardhat-ethers": "^2.0.0",
         "@nomiclabs/hardhat-waffle": "^2.0.0",
+        "@typechain/web3-v1": "^6.0.1",
         "chai": "^4.2.0",
         "ethereum-waffle": "^3.0.0",
         "ethers": "^5.0.0",
@@ -19,8 +20,12 @@
     "scripts": {
         "test": "mocha",
         "deploy": "npx hardhat run scripts/delance.js",
-        "deploy-l": "npx hardhat run scripts/delance.js --network rinkeby",
-        "test-d": "yarn deploy && mocha"
+        "deploy-r": "npx hardhat run scripts/delance.js --network rinkeby",
+        "deploy-l": "npx hardhat run scripts/delance.js --network localhost",
+        "test-d": "yarn deploy && mocha",
+        "gen-contract-types-client": "npx typechain --target web3-v1 --out-dir client/src/generated-contract-types/contracts 'artifacts/contracts/Delance.sol/Delance.json'",
+        "gen-contract-types-server": "npx typechain --target web3-v1 --out-dir server/src/generated-contract-types/contracts 'artifacts/contracts/Delance.sol/Delance.json'",
+        "gen-contract-types": "yarn gen-contract-types-client && yarn gen-contract-types-server"
     },
     "author": "",
     "license": "ISC"
