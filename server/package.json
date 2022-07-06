@@ -17,7 +17,9 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "express": "^4.18.1"
+        "dotenv": "^16.0.1",
+        "express": "^4.18.1",
+        "keccak256": "^1.0.6"
     },
     "devDependencies": {
         "@swc/cli": "^0.1.57",
