@@ -47,7 +47,6 @@ function App() {
     const getContractBalance = useCallback(async () => {
         if (!web3js) return;
         const _balance = await web3js.eth.getBalance(contractAddress);
-        console.log({ _balance });
         setBalance(_balance);
     }, [web3js]);
 

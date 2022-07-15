@@ -30,6 +30,31 @@ export const abi = [
         inputs: [
             {
                 indexed: false,
+                internalType: "bytes",
+                name: "_hash",
+                type: "bytes",
+            },
+            {
+                indexed: false,
+                internalType: "address",
+                name: "recovered",
+                type: "address",
+            },
+            {
+                indexed: false,
+                internalType: "bytes32",
+                name: "hashSwap",
+                type: "bytes32",
+            },
+        ],
+        name: "AmountTransferredToEmployer",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
                 internalType: "uint256",
                 name: "amount",
                 type: "uint256",
@@ -90,6 +115,19 @@ export const abi = [
     },
     {
         inputs: [],
+        name: "admin",
+        outputs: [
+            {
+                internalType: "address",
+                name: "",
+                type: "address",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
         name: "amountToPayToFreelancer",
         outputs: [
             {
@@ -104,19 +142,35 @@ export const abi = [
     {
         inputs: [
             {
-                internalType: "string",
-                name: "_hash",
-                type: "string",
+                internalType: "bytes",
+                name: "_signature",
+                type: "bytes",
+            },
+            {
+                components: [
+                    {
+                        internalType: "address",
+                        name: "freelancer",
+                        type: "address",
+                    },
+                    {
+                        internalType: "address",
+                        name: "admin",
+                        type: "address",
+                    },
+                    {
+                        internalType: "address",
+                        name: "employer",
+                        type: "address",
+                    },
+                ],
+                internalType: "struct Delance.AffiliatedAddresses",
+                name: "_affiliatedAddresses",
+                type: "tuple",
             },
         ],
         name: "approveEmployerRejectionByAdmin",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string",
-            },
-        ],
+        outputs: [],
         stateMutability: "nonpayable",
         type: "function",
     },

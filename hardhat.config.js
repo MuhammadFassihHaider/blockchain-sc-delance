@@ -24,7 +24,7 @@ module.exports = {
             url: "https://rinkeby.infura.io/v3/d8f39fe2d7964cf6a13c02a4d4a22f50",
             accounts: [
                 process.env.PRIVATE_KEY ??
-                    "36bff3e6b7b59c9e482692be6475bdefc546f0f8aab04a0a7daad052742ba36f",
+                    "e78540aeb49f42832fabe4e24f937f102f84ca4d2be94239df87ad682f78449b",
             ],
         },
         bsc_testnet: {

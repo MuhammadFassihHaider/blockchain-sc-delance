@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "dependencies": {
+        "@openzeppelin/contracts": "^4.7.0",
         "@typechain/ethers-v5": "^10.1.0",
         "@typechain/hardhat": "^6.1.2",
         "typechain": "^8.1.0"
@@ -20,8 +21,8 @@
     "scripts": {
         "test": "mocha",
         "deploy": "npx hardhat run scripts/delance.js",
-        "deploy-r": "npx hardhat run scripts/delance.js --network rinkeby",
-        "deploy-l": "npx hardhat run scripts/delance.js --network localhost",
+        "deploy-r": "npx hardhat compile && npx hardhat run scripts/delance.js --network rinkeby && yarn gen-contract-types",
+        "deploy-l": "npx hardhat compile && npx hardhat run scripts/delance.js --network localhost && yarn gen-contract-types",
         "test-d": "yarn deploy && mocha",
         "gen-contract-types-client": "npx typechain --target web3-v1 --out-dir client/src/generated-contract-types/contracts 'artifacts/contracts/Delance.sol/Delance.json'",
         "gen-contract-types-server": "npx typechain --target web3-v1 --out-dir server/src/generated-contract-types/contracts 'artifacts/contracts/Delance.sol/Delance.json'",

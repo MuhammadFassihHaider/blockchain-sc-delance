@@ -1,14 +1,17 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.15;
 import "hardhat/console.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 contract Delance {
+    using ECDSA for bytes32;
+
     bool public reentrantPreventionFlag = false;
     // work is rejected by default
     bool public isFreelancerWorkRejected = true;
     address payable public freelancer;
     address payable public employer;
-    address admin;
+    address public admin;
     uint256 public deadline;
     uint256 public price;
     uint256 public amountToPayToFreelancer = 0;
@@ -19,6 +22,12 @@ contract Delance {
         string title;
         bool locked;
         bool paid;
+    }
+
+    struct AffiliatedAddresses {
+        address freelancer;
+        address admin;
+        address employer;
     }
 
     event RequestUnlocked(bool locked);
@@ -133,16 +142,6 @@ contract Delance {
 
         amountToPayToFreelancer += request.amount;
         request.paid = true;
-        // lock from here - transfer start
-        // reentrantPreventionFlag = true;
-
-        // // second return value: bytes memory transactionBytes
-        // (bool success, ) = freelancer.call{value: request.amount}("");
-
-        // require(success, "Transfer failed!");
-
-        // unlock here - transfer end
-        // reentrantPreventionFlag = false;
 
         emit RequestPaid(msg.sender, request.amount);
     }
@@ -155,13 +154,32 @@ contract Delance {
         isFreelancerWorkRejected = _isFreelancerWorkRejected;
     }
 
-    function approveEmployerRejectionByAdmin() public onlyAdmin {
+    event AmountTransferredToEmployer(
+        bytes _hash,
+        address recovered,
+        bytes32 hashSwap
+    );
+
+    function approveEmployerRejectionByAdmin(
+        bytes memory _signature,
+        AffiliatedAddresses calldata _affiliatedAddresses
+    ) public onlyAdmin {
         // transfer all the amount back to employer
         require(isFreelancerWorkRejected, "Employer hasn't rejected work!");
 
+        // require(
+        //     admin == recover(hashSwap(_affiliatedAddresses), _signature),
+        //     "Backend address does not match"
+        // );
+        address recovered = recover(hashSwap(_affiliatedAddresses), _signature);
         transferAmount(employer, amountToPayToFreelancer);
 
         amountToPayToFreelancer = 0;
+        emit AmountTransferredToEmployer(
+            _signature,
+            recovered,
+            hashSwap(_affiliatedAddresses)
+        );
     }
 
     function withdrawAmountByFreelancer()
@@ -177,6 +195,25 @@ contract Delance {
 
         amountToPayToFreelancer = 0;
         isFreelancerWorkRejected = true;
+    }
+
+    function recover(bytes32 _hash, bytes memory sig)
+        private
+        pure
+        returns (address)
+    {
+        return ECDSA.recover(ECDSA.toEthSignedMessageHash(_hash), sig);
+    }
+
+    function hashSwap(AffiliatedAddresses calldata data)
+        private
+        pure
+        returns (bytes32)
+    {
+        return
+            keccak256(
+                abi.encodePacked(data.freelancer, data.admin, data.employer)
+            );
     }
 
     // called when any ethers are sent to contract

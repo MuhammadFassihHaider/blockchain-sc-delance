@@ -21,6 +21,14 @@ export interface EventOptions {
   topics?: string[];
 }
 
+export type AmountTransferredToEmployer = ContractEventLog<{
+  _hash: string;
+  recovered: string;
+  hashSwap: string;
+  0: string;
+  1: string;
+  2: string;
+}>;
 export type RequestCreated = ContractEventLog<{
   amount: string;
   title: string;
@@ -50,9 +58,14 @@ export interface Delance extends BaseContract {
   ): Delance;
   clone(): Delance;
   methods: {
+    admin(): NonPayableTransactionObject<string>;
+
     amountToPayToFreelancer(): NonPayableTransactionObject<string>;
 
-    approveEmployerRejectionByAdmin(): NonPayableTransactionObject<void>;
+    approveEmployerRejectionByAdmin(
+      _signature: string | number[],
+      _affiliatedAddresses: [string, string, string]
+    ): NonPayableTransactionObject<void>;
 
     createRequest(
       _amount: number | string | BN,
@@ -100,6 +113,8 @@ export interface Delance extends BaseContract {
       _isFreelancerWorkRejected: boolean
     ): NonPayableTransactionObject<void>;
 
+    testFlag(): NonPayableTransactionObject<boolean>;
+
     unlockRequest(
       _indexOfRequest: number | string | BN
     ): NonPayableTransactionObject<void>;
@@ -107,6 +122,14 @@ export interface Delance extends BaseContract {
     withdrawAmountByFreelancer(): NonPayableTransactionObject<void>;
   };
   events: {
+    AmountTransferredToEmployer(
+      cb?: Callback<AmountTransferredToEmployer>
+    ): EventEmitter;
+    AmountTransferredToEmployer(
+      options?: EventOptions,
+      cb?: Callback<AmountTransferredToEmployer>
+    ): EventEmitter;
+
     RequestCreated(cb?: Callback<RequestCreated>): EventEmitter;
     RequestCreated(
       options?: EventOptions,
@@ -127,6 +150,16 @@ export interface Delance extends BaseContract {
 
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
+
+  once(
+    event: "AmountTransferredToEmployer",
+    cb: Callback<AmountTransferredToEmployer>
+  ): void;
+  once(
+    event: "AmountTransferredToEmployer",
+    options: EventOptions,
+    cb: Callback<AmountTransferredToEmployer>
+  ): void;
 
   once(event: "RequestCreated", cb: Callback<RequestCreated>): void;
   once(
